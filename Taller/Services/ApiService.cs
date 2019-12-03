@@ -127,7 +127,7 @@
             string controller)
         {
             try
-            {
+            {// falta conexion 
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);
                 var url = string.Format("{0}{1}", servicePrefix, controller);
