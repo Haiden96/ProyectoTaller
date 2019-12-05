@@ -8,54 +8,67 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Historial">
     <ContentPage.Content>
-        <StackLayout BindingContext="{Binding Historial}">
-            <SearchBar               
+
+        <ScrollView BindingContext="{Binding Historial} ">
+            <StackLayout>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand">
+                </ActivityIndicator>
+                <SearchBar               
                 Text="{Binding Filter, Mode=TwoWay}"
                 Placeholder="Search..."
                 SearchCommand="{Binding SearchCommand}">
-            </SearchBar>
-            <ListView 
+                </SearchBar>
+                <ListView 
                 BackgroundColor="White"
                 HasUnevenRows="true" 
                 IsPullToRefreshEnabled="true"
                 IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
-                ItemsSource="{Binding Enfermedad}"
+                ItemsSource="{Binding Historial}"
                 SeparatorVisibility="None"
                 RefreshCommand="{Binding RefreshCommand}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Frame
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame
                                 CornerRadius="20"
                                 HasShadow="true"
                                 Margin="2">
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectLandCommand}"/>
-                                </Frame.GestureRecognizers>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout 
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SelectLandCommand}"/>
+                                    </Frame.GestureRecognizers>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout 
                                         Grid.Column="0"
                                         VerticalOptions="Center">
-                                        <Label 
+                                            <Label 
                                             FontAttributes="Bold"
                                             FontSize="Medium" 
-                                            Text="{Binding Virus}"
+                                            Text="{Binding Id}"
                                             TextColor="Black">
-                                        </Label>
-                                        <Label 
-                                            Text="{Binding Probabilidad}"
+                                            </Label>
+                                            <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="Medium" 
+                                            Text="{Binding FechaReg}"
+                                            TextColor="Black">
+                                            </Label>
+                                            <Label 
+                                            Text="{Binding Detalle}"
                                             TextColor="Green">
-                                        </Label>
-                                    </StackLayout>
-                                </Grid>
-                            </Frame>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
+                                            </Label>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -29,6 +29,11 @@ namespace Taller.ViewModels
             get;
             set;
         }
+        public DetalleHistorialViewModel Prediagnostico
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructors
@@ -61,8 +66,8 @@ namespace Taller.ViewModels
 
         private async void GoToHistorial()
         {
-            this.Historial = new VerHistorialViewModel(0); 
-            await Application.Current.MainPage.Navigation.PushAsync(new VerHistorialPage());
+            this.Prediagnostico = new DetalleHistorialViewModel(0); 
+            await Application.Current.MainPage.Navigation.PushAsync(new DetalleHistorialPage());
         }
     }
 }

@@ -15,6 +15,8 @@
     using IBM.Watson.VisualRecognition.v3.Model;
     using System.IO;
     using System.Net;
+    using System.Data;
+    using System.Xml;
 
     public class ApiService
     {
@@ -133,7 +135,6 @@
                 var url = string.Format("{0}{1}", servicePrefix, controller);
                 var response = await client.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
-
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response

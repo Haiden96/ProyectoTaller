@@ -30,3 +30,5 @@ C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\XamlC.s
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.dll
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\ref\Taller.dll
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.pdb
+C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.csprojAssemblyReference.cache
+C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\DetalleHistorialPage.xaml.g.cs

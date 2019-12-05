@@ -20,25 +20,24 @@ namespace Taller.ViewModels
         #endregion
 
         #region Attributes
-        private ObservableCollection<Historial> historail;
-        private ObservableCollection<DetalleHistorial> detalleHistorial;
+        private ObservableCollection<Historial> historial;
         private bool isRefreshing;
+        private bool isRunning;
         private string filter;
-        private List<DetalleHistorial> detalleHistorials;
+        private List<Historial> historials;
         #endregion
 
         #region Properties
         public ObservableCollection<Historial> Historial
         {
-            get { return this.historail; }
-            set { SetValue(ref this.historail, value); }
+            get { return this.historial; }
+            set { SetValue(ref this.historial, value); }
         }
-        public ObservableCollection<DetalleHistorial> DetalleHistorial
+        public bool IsRunning
         {
-            get { return this.detalleHistorial; }
-            set { SetValue(ref this.detalleHistorial, value); }
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
         }
-
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
@@ -81,11 +80,12 @@ namespace Taller.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
+            this.IsRunning = true;
 
-            var response = await this.apiService.GetList<Enfermedad>(
-                "http://restcountries.eu",
-                "/rest",
-                "/v2/all");
+            var response = await this.apiService.GetList<Historial>(
+                "http://192.168.0.12",
+                "/WebApi",
+                "/Api/historial");
 
             if (!response.IsSuccess)
             {
@@ -98,9 +98,10 @@ namespace Taller.ViewModels
                 return;
             }
 
-            this.detalleHistorials = (List<DetalleHistorial>)response.Result;
-            this.DetalleHistorial = new ObservableCollection<DetalleHistorial>(this.detalleHistorials);
+            this.historials = (List<Historial>)response.Result;
+            this.Historial = new ObservableCollection<Historial>(this.historials);
             this.IsRefreshing = false;
+            this.IsRunning = false;
         }
         #endregion
 
@@ -124,14 +125,14 @@ namespace Taller.ViewModels
         {
             if (string.IsNullOrEmpty(this.Filter))
             {
-                this.DetalleHistorial = new ObservableCollection<DetalleHistorial>(
-                    this.detalleHistorial);
+                this.Historial = new ObservableCollection<Historial>(
+                    this.historials);
             }
             else
             {
-            //    this.DetalleHistorial = new ObservableCollection<DetalleHistorial>(
-            //        this.detalleHistorial.Where(
-            //            l => l.Virus.ToLower().Contains(this.Filter.ToLower())));
+                this.Historial = new ObservableCollection<Historial>(
+                    this.historials.Where(
+                        l => l.Detalle.ToLower().Contains(this.Filter.ToLower())||  l.Id.ToString().Equals(this.Filter)));
             }
         }
         #endregion
