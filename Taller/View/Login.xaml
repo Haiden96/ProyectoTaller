@@ -26,15 +26,15 @@
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
-                        Text="EMail"
+                        Text="User"
                         VerticalOptions="Center">
                     </Label>
                     <Entry
                         Grid.Row="0"
                         Grid.Column="1"
-                        Keyboard="Email"
+                        HorizontalOptions="FillAndExpand" 
                         Text="{Binding Email, Mode=TwoWay}"
-                        Placeholder="EmailPlaceHolder">
+                        Placeholder="Ingrese su usuario">
                     </Entry>
                     <Label
                         Grid.Row="1"
@@ -46,10 +46,36 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         IsPassword="true"
+                        HorizontalOptions="FillAndExpand" 
                         Text="{Binding Password, Mode=TwoWay}"
-                        Placeholder="PasswordPlaceHolder">
+                        Placeholder="Ingrese su contraseña">
                     </Entry>
                 </Grid>
+
+                <StackLayout
+                    Margin="10,0,10,0"
+                    Orientation="Horizontal"
+                    VerticalOptions="CenterAndExpand">
+                    <Label
+                        HorizontalOptions="Start"
+                        Text="Seleccione: "
+                        VerticalOptions="Center">
+                    </Label>
+                    <Picker x:Name="Picker"
+                            Margin="55,0,0,0"
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="Center"
+                    Title="Seleccione"
+                    TitleColor="Red"
+                    SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>PACIENTE</x:String>
+                                <x:String>MEDICO</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </StackLayout>
                 <ActivityIndicator
                     IsRunning="{Binding IsRunning, Mode=TwoWay}"
                     VerticalOptions="CenterAndExpand">
@@ -91,6 +117,7 @@
                     <Button
                         BackgroundColor="Purple"
                         BorderRadius="23"
+                        Command="{Binding RegisterCommand}"
                         HeightRequest="46"
                         HorizontalOptions="FillAndExpand"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
@@ -98,10 +125,13 @@
                         TextColor="White">
                     </Button>
                 </StackLayout>
-                <StackLayout
+                <!--<StackLayout
                     HorizontalOptions="Center"
                     Orientation="Horizontal"
                     VerticalOptions="EndAndExpand">
+                    <Label Text="Seleccione: " FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Picker Title="Tipo"/>
+
                     <Image
                         Source="facebook_logo"
                         WidthRequest="100">
@@ -117,7 +147,7 @@
                         Source="instagram_logo"
                         WidthRequest="85">
                     </Image>
-                </StackLayout>
+                </StackLayout>-->
             </StackLayout>
         </ScrollView>
 

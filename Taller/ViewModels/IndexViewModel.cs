@@ -101,9 +101,26 @@ namespace Taller.ViewModels
                 return;
             }
 
+            byte[] myBinary = new byte[path.Length];
+            Stream stream = new MemoryStream(myBinary);
+            var responseCaptura = await this.apiService.Post<Captura>(
+            "http://192.168.0.12",
+            "/WebApi",
+            "/Api/Captura",
+            new Captura(0, App.var_paciente.Id, new byte[2], ""));
+            var cap = (Captura)responseCaptura.Result;
+
             this.enfermedadList = (List<Enfermedad>)response.Result;
             this.Enfermedad = new ObservableCollection<Enfermedad>(this.enfermedadList);
             this.IsRefreshing = false;
+            foreach (Enfermedad e in enfermedadList)
+            {
+                var responsePrediagnostico = await this.apiService.Post<PreDiagnostico>(
+                "http://192.168.0.12",
+                "/WebApi",
+                "/Api/PreDiagnostico",
+                new PreDiagnostico(0, cap.Id, App.var_historial.Id, e.Virus, e.Probabilidad, "Pendiente de verificacion", DateTime.Now, 0, 0));
+            }
         }
         #endregion
 

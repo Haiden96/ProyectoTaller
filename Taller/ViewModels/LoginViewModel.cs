@@ -11,20 +11,42 @@ namespace Taller.ViewModels
     using Xamarin.Forms;
     using View;
     using Services;
-    public class LoginViewModel: BaseViewModel
+    using Taller.Models;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+
+    public class LoginViewModel : BaseViewModel
     {
         #region Services
         private ApiService apiService;
         #endregion
 
         #region Attributes
+
+        private ObservableCollection<Medico> medico;
+        private List<Medico> medicos;
+        private ObservableCollection<Paciente> paciente;
+        private List<Paciente> pacientes;
         private string email;
         private string password;
         private bool isRunning;
+        private int selectedindex;
         private bool isEnabled;
         #endregion
 
         #region Properties
+
+        public ObservableCollection<Medico> Medico
+        {
+            get { return this.medico; }
+            set { SetValue(ref this.medico, value); }
+        }
+        public ObservableCollection<Paciente> Paciente
+        {
+            get { return this.paciente; }
+            set { SetValue(ref this.paciente, value); }
+        }
+
         public string Email
         {
             get { return this.email; }
@@ -36,6 +58,11 @@ namespace Taller.ViewModels
             set { SetValue(ref this.password, value); }
         }
 
+        public int SelectedIndex
+        {
+            get { return this.selectedindex; }
+            set { SetValue(ref this.selectedindex, value); }
+        }
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -63,7 +90,18 @@ namespace Taller.ViewModels
                 return new RelayCommand(Login);
             }
         }
-
+        public ICommand RegisterCommand
+        {
+            get
+            {
+                return new RelayCommand(Registro);
+            }
+        }
+        private async void Registro()
+        {
+            MainViewModel.GetInstance().Registro = new RegistroViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new RegistroPage());
+        }
         private async void Login()
         {
             if (string.IsNullOrEmpty(this.Email))
@@ -82,10 +120,10 @@ namespace Taller.ViewModels
                     "Acceptar");
                 return;
             }
+
             this.IsRunning = true;
             this.IsEnabled = false;
-            this.Email = String.Empty;
-            this.Password = String.Empty;
+            this.SelectedIndex = this.selectedindex;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
@@ -97,13 +135,109 @@ namespace Taller.ViewModels
                     "Acceptar");
                 return;
             }
-            MainViewModel.GetInstance().CargarImagen= new CargarImagenViewModel();
-            //mainViewModel.Token = token;
-            //mainViewModel.Index = new IndexViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new CargarImagenPage());
+
+            if (this.SelectedIndex == 1)
+            {
+                var response = await this.apiService.GetList<Medico>(
+                "http://192.168.0.12",
+                "/WebApi",
+                "/Api/Medico");
+
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                       "Error",
+                        response.Message,
+                        "Accept");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                    return;
+                }
+
+                this.medicos = (List<Medico>)response.Result;
+                this.Medico = new ObservableCollection<Medico>(this.medicos);
+                this.Medico = new ObservableCollection<Medico>(
+                    this.medico.Where(
+                        l => l.Ci.ToLower().Contains(this.email.ToLower()) && l.Password.ToString().Equals(this.Password)));
+
+            }
+            else
+            {
+                var response = await this.apiService.GetList<Paciente>(
+                "http://192.168.0.12",
+                "/WebApi",
+                "/Api/Paciente");
+
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                       "Error",
+                        response.Message,
+                        "Accept");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                    return;
+                }
+                this.pacientes = (List<Paciente>)response.Result;
+                this.Paciente = new ObservableCollection<Paciente>(this.pacientes);
+                this.Paciente = new ObservableCollection<Paciente>(
+                    this.paciente.Where(
+                        l => l.Ci.ToLower().Contains(this.email.ToLower()) && l.Password.ToString().Equals(this.Password)));
+
+            }
+            if (this.Paciente != null)
+            {
+                if (this.Paciente.Count > 0)
+                {
+                    App.var_paciente = this.Paciente.First();
+                    var response = await this.apiService.Get<Historial>(
+                        "http://192.168.0.12",
+                        "/WebApi",
+                        "/Api/historial/" + App.var_paciente.Id);
+
+                    if (!response.IsSuccess)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                           "Error",
+                            response.Message,
+                            "Accept");
+                        await Application.Current.MainPage.Navigation.PopAsync();
+                        return;
+                    }
+                    var historial = (Historial)response.Result;
+                    App.var_historial = historial;
+                    
+                    MainViewModel.GetInstance().CargarImagen = new CargarImagenViewModel();
+                    //mainViewModel.Token = token;
+                    //mainViewModel.Index = new IndexViewModel();
+                    await Application.Current.MainPage.Navigation.PushAsync(new CargarImagenPage());
+                    this.Email = String.Empty;
+                    this.Password = String.Empty;
+                    this.Paciente = null;
+                }
+            }
+            else if (this.Medico != null)
+            {
+                if (this.Medico.Count > 0)
+                {
+                    App.var_medico = this.Medico.First();
+                    MainViewModel.GetInstance().ListaPaciente = new ListaPacienteVieModel();
+                    //mainViewModel.Token = token;
+                    //mainViewModel.Index = new IndexViewModel();
+                    await Application.Current.MainPage.Navigation.PushAsync(new ListaPacientePage());
+                    this.Email = String.Empty;
+                    this.Password = String.Empty;
+                    this.Medico = null;
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                       "Error",
+                        "Verifique las credenciales de acceso",
+                        "Acceptar");
+            }
             this.IsRunning = false;
             this.IsEnabled = true;
-            
+
         }
         #endregion
 
@@ -111,14 +245,14 @@ namespace Taller.ViewModels
         public LoginViewModel()
         {
             this.apiService = new ApiService();
-            this.Email = "kevin.haiden96@gmail.com";
-            this.Password = "123";
+            this.Email = String.Empty;
+            this.Password = String.Empty;
             this.IsRemembered = true;
             this.IsEnabled = true;
         }
         #endregion
 
-       
+
 
     }
 

@@ -25,9 +25,11 @@ namespace Taller.ViewModels
         private bool isRunning;
         private string filter;
         private List<PreDiagnostico> detalleHistorials;
+        private PacienteItemViewModel pacienteItemViewModel;
         #endregion
 
         #region Properties
+        public Historial pacienteHistorialSelected { get; set; }
         public ObservableCollection<PreDiagnostico> DetalleHistorial
         {
             get { return this.detalleHistorial; }
@@ -57,15 +59,18 @@ namespace Taller.ViewModels
 
 
         #region Constructors
-        public DetalleHistorialViewModel(int id)
+        
+
+        public DetalleHistorialViewModel(Historial historial)
         {
+            this.pacienteHistorialSelected = historial;
             this.apiService = new ApiService();
-            this.LoadDetalleHistorial(1);
+            this.LoadDetalleHistorial();
         }
         #endregion
 
         #region Methods
-        private async void LoadDetalleHistorial(int id)
+        private async void LoadDetalleHistorial()
         {
             this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
@@ -81,11 +86,10 @@ namespace Taller.ViewModels
                 return;
             }
             this.IsRunning = true;
-
             var response = await this.apiService.GetList<PreDiagnostico>(
                 "http://192.168.0.12",
                 "/WebApi",
-                "/Api/PreDiagnostico");
+                "/Api/PreDiagnostico/" + this.pacienteHistorialSelected.Id);
 
             if (!response.IsSuccess)
             {

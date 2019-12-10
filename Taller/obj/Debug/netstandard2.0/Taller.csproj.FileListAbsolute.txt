@@ -21,7 +21,9 @@ C:\Users\ASUS\source\repos\Taller\Taller\Taller\bin\Debug\netstandard2.0\Taller.
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\App.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\CargarImagenPage.xaml.g.cs
+C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\DetalleHistorialPage.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\IndexPage.xaml.g.cs
+C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\ListaPacientePage.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\Login.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\VerHistorialPage.xaml.g.cs
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.AssemblyInfoInputs.cache
@@ -31,4 +33,4 @@ C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\ref\Taller.dll
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.pdb
 C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\Taller.csprojAssemblyReference.cache
-C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\DetalleHistorialPage.xaml.g.cs
+C:\Users\ASUS\source\repos\Taller\Taller\Taller\obj\Debug\netstandard2.0\View\RegistroPage.xaml.g.cs

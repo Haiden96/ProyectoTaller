@@ -48,7 +48,7 @@
                                             TextColor="Black">
                                         </Label>
                                         <Label 
-                                            Text="{Binding Probabilidad}"
+                                            Text="{Binding Probabilidad, StringFormat='{0 }%'}"
                                             TextColor="Green">
                                         </Label>
                                     </StackLayout>

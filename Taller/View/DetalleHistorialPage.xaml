@@ -53,12 +53,25 @@
                                             <Label 
                                             FontAttributes="Bold"
                                             FontSize="Medium" 
-                                            Text="{Binding FechaReg}"
-                                            TextColor="Black">
+                                            TextColor="Green">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Resultado, StringFormat='{0 }->'}" />
+                                                        <Span Text="{Binding Probabilidad, StringFormat='{0}%'}"/>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
                                             </Label>
                                             <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="Small" 
                                             Text="{Binding Glosa}"
                                             TextColor="Green">
+                                            </Label>
+                                            <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="Small" 
+                                            Text="{Binding FechaReg}"
+                                            TextColor="Black">
                                             </Label>
                                         </StackLayout>
                                     </Grid>

@@ -3,10 +3,14 @@ using Xamarin.Forms.Xaml;
 
 namespace Taller
 {
-using Taller.View;
-using Xamarin.Forms;
+    using Taller.Models;
+    using Taller.View;
+    using Xamarin.Forms;
     public partial class App : Application
     {
+        public static Paciente var_paciente { get; set; }
+        public static Medico var_medico { get; set; }
+        public static Historial var_historial { get; set; }
         public App()
         {
             InitializeComponent();

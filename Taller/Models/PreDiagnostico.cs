@@ -36,6 +36,22 @@ namespace Taller.Models
 
         [JsonProperty("EstadoVerificacion")]
         public int EstadoVerificacion { get; set; }
+
+        [JsonProperty("IdMedico")]
+        public int IdMedico { get; set; }
+
+        public PreDiagnostico(int id, int idCaptura, int idHistorial, string resultado, double probabilidad, string glosa, DateTime fechaReg, int estadoVerificacion, int idMedico)
+        {
+            Id = id;
+            IdCaptura = idCaptura;
+            IdHistorial = idHistorial;
+            Resultado = resultado;
+            Probabilidad = probabilidad;
+            Glosa = glosa;
+            FechaReg = fechaReg;
+            EstadoVerificacion = estadoVerificacion;
+            IdMedico = idMedico;
+        }
     }
 
 }
