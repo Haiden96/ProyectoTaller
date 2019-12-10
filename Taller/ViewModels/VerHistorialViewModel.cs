@@ -83,8 +83,8 @@ namespace Taller.ViewModels
             this.IsRunning = true;
 
             var response = await this.apiService.GetList<Historial>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/historial");
 
             if (!response.IsSuccess)

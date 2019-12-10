@@ -82,8 +82,8 @@ namespace Taller.ViewModels
             }
             this.IsRunning = true;
             var response = await this.apiService.GetList<Paciente>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/Paciente");
 
             if (!response.IsSuccess)

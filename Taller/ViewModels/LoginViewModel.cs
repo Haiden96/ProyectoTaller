@@ -139,8 +139,8 @@ namespace Taller.ViewModels
             if (this.SelectedIndex == 1)
             {
                 var response = await this.apiService.GetList<Medico>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/Medico");
 
                 if (!response.IsSuccess)
@@ -163,8 +163,8 @@ namespace Taller.ViewModels
             else
             {
                 var response = await this.apiService.GetList<Paciente>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/Paciente");
 
                 if (!response.IsSuccess)
@@ -189,8 +189,8 @@ namespace Taller.ViewModels
                 {
                     App.var_paciente = this.Paciente.First();
                     var response = await this.apiService.Get<Historial>(
-                        "http://192.168.0.12",
-                        "/WebApi",
+                        App.url_webservice,
+                        App.url_servicePrefix,
                         "/Api/historial/" + App.var_paciente.Id);
 
                     if (!response.IsSuccess)
@@ -213,6 +213,13 @@ namespace Taller.ViewModels
                     this.Password = String.Empty;
                     this.Paciente = null;
                 }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                           "Error",
+                            "Verifique las credenciales de acceso",
+                            "Acceptar");
+                }
             }
             else if (this.Medico != null)
             {
@@ -226,15 +233,15 @@ namespace Taller.ViewModels
                     this.Email = String.Empty;
                     this.Password = String.Empty;
                     this.Medico = null;
-                }
-            }
-            else
+                }else
             {
                 await Application.Current.MainPage.DisplayAlert(
                        "Error",
                         "Verifique las credenciales de acceso",
                         "Acceptar");
             }
+            }
+            
             this.IsRunning = false;
             this.IsEnabled = true;
 

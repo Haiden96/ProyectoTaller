@@ -1,15 +1,14 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using Taller.Models;
-using Taller.Services;
-using Taller.View;
-using Xamarin.Forms;
-
+﻿
 namespace Taller.ViewModels
 {
+    using GalaSoft.MvvmLight.Command;
+    using System;
+    using System.Windows.Input;
+    using Taller.Models;
+    using Taller.Services;
+    using Taller.View;
+    using Xamarin.Forms;
+
     public class RegistroViewModel:BaseViewModel
     {
         #region Services
@@ -118,8 +117,8 @@ namespace Taller.ViewModels
             if (this.SelectedIndex == 1)
             {
                 var response = await this.apiService.Post<Medico>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/Medico",
                 new Medico(0,this.Ci, this.Nombre, this.Apellido, this.Telefono, this.Especialidad, this.Codigo, this.Password));
 
@@ -137,8 +136,8 @@ namespace Taller.ViewModels
             else
             {
                 var response = await this.apiService.Post<Paciente>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/Paciente",
                 new Paciente(0, this.Ci, this.Nombre, this.Apellido, this.Telefono, this.Codigo, this.Password));
 
@@ -152,7 +151,24 @@ namespace Taller.ViewModels
                     await Application.Current.MainPage.Navigation.PopAsync();
                     return;
                 }
+                var paciente = (Paciente)response.Result;
 
+                var response1 = await this.apiService.Post<Historial>(
+                App.url_webservice,
+                App.url_servicePrefix,
+                "/Api/Historial",
+                new Historial(0,paciente.Id,DateTime.Now,"Nuevo Historial"));
+
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    await Application.Current.MainPage.DisplayAlert(
+                       "Error",
+                        response.Message,
+                        "Accept");
+                    await Application.Current.MainPage.Navigation.PopAsync();
+                    return;
+                }
             }
             this.IsRunning = false;
             MainViewModel.GetInstance().Login = new LoginViewModel();

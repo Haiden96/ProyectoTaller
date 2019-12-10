@@ -97,8 +97,8 @@ namespace Taller.ViewModels
                 return;
             }
             var response = await this.apiService.Get<Historial>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/historial/" + App.var_paciente.Id);
 
             if (!response.IsSuccess)

@@ -87,8 +87,8 @@ namespace Taller.ViewModels
             }
             this.IsRunning = true;
             var response = await this.apiService.GetList<PreDiagnostico>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/PreDiagnostico/" + this.pacienteHistorialSelected.Id);
 
             if (!response.IsSuccess)

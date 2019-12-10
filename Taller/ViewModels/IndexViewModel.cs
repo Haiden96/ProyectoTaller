@@ -100,12 +100,12 @@ namespace Taller.ViewModels
                 await Application.Current.MainPage.Navigation.PopAsync();
                 return;
             }
-
+            
             byte[] myBinary = new byte[path.Length];
             Stream stream = new MemoryStream(myBinary);
             var responseCaptura = await this.apiService.Post<Captura>(
-            "http://192.168.0.12",
-            "/WebApi",
+            App.url_webservice,
+            App.url_servicePrefix,
             "/Api/Captura",
             new Captura(0, App.var_paciente.Id, new byte[2], ""));
             var cap = (Captura)responseCaptura.Result;
@@ -116,8 +116,8 @@ namespace Taller.ViewModels
             foreach (Enfermedad e in enfermedadList)
             {
                 var responsePrediagnostico = await this.apiService.Post<PreDiagnostico>(
-                "http://192.168.0.12",
-                "/WebApi",
+                App.url_webservice,
+                App.url_servicePrefix,
                 "/Api/PreDiagnostico",
                 new PreDiagnostico(0, cap.Id, App.var_historial.Id, e.Virus, e.Probabilidad, "Pendiente de verificacion", DateTime.Now, 0, 0));
             }
